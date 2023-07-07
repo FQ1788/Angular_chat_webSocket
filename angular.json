@@ -63,6 +63,7 @@
               "browserTarget": "Chat_Demo:build:production"
             },
             "development": {
+              "host": "0.0.0.0",
               "browserTarget": "Chat_Demo:build:development"
             }
           },
@@ -94,5 +95,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }
