@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, AfterViewChecked } from '@angular/core';
 import { ChatSocketService } from './@service/chat-socket.service';
 
 @Component({
@@ -6,13 +6,20 @@ import { ChatSocketService } from './@service/chat-socket.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit, AfterViewChecked {
+  @ViewChild('scrollMe')
+  private scrollMe!: ElementRef;
+
   webSocketAPI!: ChatSocketService;
   greeting: string[] = [];
 
   ngOnInit() {
     this.webSocketAPI = new ChatSocketService(this);
     this.connect();
+  }
+  
+  ngAfterViewChecked(): void {
+    this.scrollMe.nativeElement.scrollTop = this.scrollMe.nativeElement.scrollHeight;
   }
 
   connect(){

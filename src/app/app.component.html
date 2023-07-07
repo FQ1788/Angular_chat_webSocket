@@ -1,4 +1,14 @@
 <div>
-  <p *ngFor="let item of greeting">{{item}}</p>
-  <input type="text" #inText (keyup.enter)="sendMessage(inText)">
+  <div class="container vh-100">
+    <div class="row overflow-auto h-50 border" #scrollMe>
+      <div class="d-flex flex-column justify-content-end">
+        <div class="row border" *ngFor="let item of greeting">
+          <a>{{item}}</a>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <input type="text" #inText (keyup.enter)="sendMessage(inText)">
+    </div>
+  </div>
 </div>
