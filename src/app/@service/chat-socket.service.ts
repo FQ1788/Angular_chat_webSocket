@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AppComponent } from '../app.component';
+//使用 SockJs 需要引入以下兩個套件
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 
