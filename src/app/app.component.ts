@@ -10,9 +10,11 @@ export class AppComponent implements OnInit, AfterViewChecked {
   @ViewChild('scrollMe')
   private scrollMe!: ElementRef;
 
+  //宣告ChatSocketService的變數
   webSocketAPI!: ChatSocketService;
   greeting: string[] = [];
 
+  //ngOnInit畫面初始化完畢後執行。
   ngOnInit() {
     this.webSocketAPI = new ChatSocketService(this);
     this.connect();
@@ -22,10 +24,12 @@ export class AppComponent implements OnInit, AfterViewChecked {
     this.scrollMe.nativeElement.scrollTop = this.scrollMe.nativeElement.scrollHeight;
   }
 
+  //與後端server連線
   connect(){
     this.webSocketAPI._connect();
   }
 
+  //關閉連線
   disconnect(){
     this.webSocketAPI._disconnect();
   }
