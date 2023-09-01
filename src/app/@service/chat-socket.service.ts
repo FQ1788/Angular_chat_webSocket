@@ -5,7 +5,7 @@ import * as SockJS from 'sockjs-client';
 export class ChatSocketService {
   
   //宣告傳送資料給後端server(SpringBoot)的URL位置。
-  webSocketEndPoint: string = 'http://172.20.27.74:8080/ws';
+  webSocketEndPoint: string = 'http://172.20.27.74:8033/ws';
   
   //宣告接收Servert傳資料的URI。
   topic: string = "/chat/out";
@@ -13,18 +13,11 @@ export class ChatSocketService {
   //宣告一個變數，存放已連線的物件。
   stompClient: any;
 
-  //宣告一個變數，存放前端的Component。
-  socketController: SocketController;
-
-  //建構子 取得前端的Component
-  constructor(socketController: SocketController){
-      this.socketController = socketController;
-  }
-
   /* 
     與後端server連線。(SpringBoot)
+    接收的兩個參數分別為【收到資料後執行的方法】與【連線異常時的方法】。
   */
-  _connect() {
+  _connect(getMethod:(message:any)=>void, errorMethod:(error:any)=>void) {
     console.log("準備連線~");
     //使用SockJs的套件，取得WebSocket的物件。  EX:初始化參數放後端server接收webSocket的URL。
     let ws = new SockJS(this.webSocketEndPoint);
@@ -45,9 +38,9 @@ export class ChatSocketService {
               第二個是從後端 Server 接收到資料後要執行的方法，型態為 function 其參數(sdkEvent)為後端傳過來的資料。
         */
         _this.stompClient.subscribe(_this.topic, function (sdkEvent: any) {
-            _this.socketController.onMessageReceived(sdkEvent);
+          getMethod(sdkEvent);
         });
-    }, this.socketController.errorCallBack);
+    },errorMethod);
   };
 
   //關閉Socket連線的方法
@@ -72,12 +65,4 @@ export class ChatSocketService {
        */
       this.stompClient.send("/app/chatIn", {}, JSON.stringify({"message" : message}));
   }
-}
-//新增介面類，增加程式彈性，降低耦合。
-export interface SocketController{
-  //收到Service傳送過來的訊息後執行的方法。
-  onMessageReceived(message:any):void;
-
-  // 發生異常時執行的方法
-  errorCallBack(error:any):void;
 }
