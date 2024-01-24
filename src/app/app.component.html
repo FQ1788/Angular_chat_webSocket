@@ -10,5 +10,11 @@
     <div class="row">
       <input type="text" #inText (keyup.enter)="sendMessage(inText)">
     </div>
+    <div class="row">
+      <input type="button" (click)="disconnect()" value="關閉">
+    </div>
+    <div class="row">
+      <input type="button" (click)="connect()" value="連線">
+    </div>
   </div>
 </div>

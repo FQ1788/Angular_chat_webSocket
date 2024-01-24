@@ -1,7 +1,8 @@
-//使用 SockJs 需要引入以下兩個套件
-import * as Stomp from 'stompjs';
-import * as SockJS from 'sockjs-client';
+import * as SockJS from "sockjs-client";
+import * as Stomp from "stompjs";
+import { Client } from "stompjs";
 
+//使用 SockJs 需要引入以下兩個套件
 export class ChatSocketService {
   
   //宣告傳送資料給後端server(SpringBoot)的URL位置。
@@ -11,7 +12,7 @@ export class ChatSocketService {
   topic: string = "/chat/out";
   
   //宣告一個變數，存放已連線的物件。
-  stompClient: any;
+  stompClient!: Client;
 
   /* 
     與後端server連線。(SpringBoot)
@@ -46,9 +47,10 @@ export class ChatSocketService {
   //關閉Socket連線的方法
   _disconnect() {
     if (this.stompClient !== null) {
-        this.stompClient.disconnect();
+        this.stompClient.disconnect(()=>{
+          console.log("連線關閉~");
+        });
     }
-    console.log("連線關閉~");
   }
 
   /**
