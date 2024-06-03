@@ -40,13 +40,13 @@ export class ChatSocketService {
         */
         _this.stompClient.subscribe(_this.topic, function (sdkEvent: any) {
           getMethod(sdkEvent);
-        });
+        },{'userId':'ttesstt!!!222'});
     },errorMethod);
   };
 
   //關閉Socket連線的方法
   _disconnect() {
-    if (this.stompClient !== null) {
+    if (this.stompClient !== null && this.stompClient.connected) {
         this.stompClient.disconnect(()=>{
           console.log("連線關閉~");
         });
@@ -66,5 +66,11 @@ export class ChatSocketService {
        *     第三個參數為訊息的 Body，型態為Object(Any)。
        */
       this.stompClient.send("/app/chatIn", {}, JSON.stringify({"message" : message}));
+  }
+
+  _superConnect(getMethod:(message:any)=>void){
+    this.stompClient.subscribe(this.topic, function (sdkEvent: any) {
+      getMethod(sdkEvent);
+    },{'userId':'ttesstt!!!222'});
   }
 }

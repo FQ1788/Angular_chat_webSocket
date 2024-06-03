@@ -57,4 +57,8 @@ export class AppComponent implements OnInit, AfterViewChecked{
       this.connect();
     }, 5000);
   }
+
+  subscribe(){
+    this.webSocketAPI._superConnect(i => this.onMessageReceived(i));
+  }
 }
